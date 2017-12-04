@@ -15,15 +15,12 @@ impl<T: Zero> Polynomial1<T> {
         if self.coeffs.is_empty() {
             self.coeffs.push(T::zero());
         }
-        let mut i = 1;
-        while i < self.coeffs.len() {
-            let j = self.coeffs.len() - i - 1;
-            if self.coeffs[j].is_zero() {
+        loop {
+            if self.coeffs.len() > 1 && self.coeffs.last().unwrap().is_zero() {
                 self.coeffs.pop();
             } else {
                 break;
             }
-            i += 1;
         }
         self
     }
