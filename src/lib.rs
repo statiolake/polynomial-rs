@@ -58,4 +58,18 @@ mod tests_fraction {
         let eq2 = Fraction::new(Polynomial1::new(vec![1, 2]), Polynomial1::new(vec![1])); // (x+2)/(1)
         assert_eq!(eq1 - eq2, Fraction::new(Polynomial1::new(vec![2, -1]), Polynomial1::new(vec![1])));
     }
+
+    #[test]
+    fn mul() {
+        let eq1 = Fraction::new(Polynomial1::new(vec![1, 1]), Polynomial1::new(vec![1, 2])); // (x+1)/(x+2)
+        let eq2 = Fraction::new(Polynomial1::new(vec![1, 3]), Polynomial1::new(vec![1, 4])); // (x+3)/(x+4)
+        assert_eq!(eq1 * eq2, Fraction::new(Polynomial1::new(vec![1,4,3]), Polynomial1::new(vec![1,6,8])));
+    }
+
+    #[test]
+    fn div() {
+        let eq1 = Fraction::new(Polynomial1::new(vec![1, 1]), Polynomial1::new(vec![1, 2])); // (x+1)/(x+2)
+        let eq2 = Fraction::new(Polynomial1::new(vec![1, 4]), Polynomial1::new(vec![1, 3])); // (x+4)/(x+3)
+        assert_eq!(eq1 / eq2, Fraction::new(Polynomial1::new(vec![1,4,3]), Polynomial1::new(vec![1,6,8])));
+    }
 }

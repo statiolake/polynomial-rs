@@ -43,3 +43,23 @@ impl<LHSN, LHSD, RHSN: Neg, RHSD> Sub<Fraction<RHSN, RHSD>> for Fraction<LHSN, L
         self + (-rhs)
     }
 }
+
+impl<LHSN, LHSD, RHSN, RHSD> Mul<Fraction<RHSN, RHSD>> for Fraction<LHSN, LHSD>
+    where LHSN: Mul<RHSN>,
+          LHSD: Mul<RHSD>
+{
+    type Output = Fraction<<LHSN as Mul<RHSN>>::Output, <LHSD as Mul<RHSD>>::Output>;
+    fn mul(self, rhs: Fraction<RHSN, RHSD>) -> Self::Output {
+        Self::Output::new(self.num * rhs.num, self.denom * rhs.denom)
+    }
+}
+
+impl<LHSN, LHSD, RHSN, RHSD> Div<Fraction<RHSN, RHSD>> for Fraction<LHSN, LHSD>
+    where Fraction<LHSN, LHSD>: Mul<Fraction<RHSD, RHSN>>
+{
+    type Output = <Fraction<LHSN, LHSD> as Mul<Fraction<RHSD, RHSN>>>::Output;
+    fn div(self, rhs: Fraction<RHSN, RHSD>) -> Self::Output {
+        let divider = Fraction::new(rhs.denom, rhs.num);
+        self * divider
+    }
+}
