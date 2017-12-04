@@ -75,7 +75,7 @@ impl<LHSN, LHSD, RHSN, RHSD> Div<Fraction<RHSN, RHSD>> for Fraction<LHSN, LHSD>
 impl<N: fmt::Display, D: fmt::Display + PartialEq + One> fmt::Display for Fraction<N, D> {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
         if self.denom == D::one() {
-            write!(f, "{}", self.num, self.denom)?;
+            write!(f, "{}", self.num)?;
         } else {
             write!(f, "({})/({})", self.num, self.denom)?;
         }
