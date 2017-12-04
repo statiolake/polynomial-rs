@@ -129,12 +129,14 @@ impl <LHS, RHS> Div<Polynomial1<RHS>> for Polynomial1<LHS> {
 
 impl<T> fmt::Display for Polynomial1<T>
     where T: Neg + Zero + One + fmt::Display + PartialOrd + Clone,
-          <T as Neg>::Output: fmt::Display
+          <T as Neg>::Output: fmt::Display + PartialEq + One
 {
-    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        use std::fmt::Write;
         let reversed = { let mut t = self.coeffs.clone(); t.reverse(); t };
         let mut first = true;
         let n = self.coeffs.len() - 1;
+        let mut f = String::new();
         for (j, c) in reversed.into_iter().enumerate() {
             let i = n - j;
             if first {
@@ -151,7 +153,7 @@ impl<T> fmt::Display for Polynomial1<T>
             }
             if c < T::zero() {
                 write!(f, "{}", -c)?;
-            } else if i != 0 && c == T::one() {
+            } else if i != 0 && (c.clone() == T::one() || -c.clone() == <T as Neg>::Output::one()) {
             } else {
                 write!(f, "{}", c)?;
             }
@@ -161,6 +163,7 @@ impl<T> fmt::Display for Polynomial1<T>
                 write!(f, "x^{}", i)?;
             }
         }
+        formatter.pad(&f);
         Ok(())
     }
 }
