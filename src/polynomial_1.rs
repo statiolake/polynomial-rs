@@ -9,10 +9,15 @@ pub struct Polynomial1<T> {
 
 impl<T: Zero> Polynomial1<T> {
     pub fn new(mut coeffs: Vec<T>) -> Self {
+        coeffs.reverse();
         if coeffs.is_empty() {
             coeffs.push(T::zero());
         }
-        Self { coeffs }
+        Polynomial1::<T>::new_impl(coeffs)
+    }
+
+    fn new_impl(raw_coeffs: Vec<T>) -> Self {
+        Self { coeffs: raw_coeffs }
     }
 }
 
@@ -20,7 +25,7 @@ impl<T: Zero + Eq> Zero for Polynomial1<T>
     where Polynomial1<T>: Add<Polynomial1<T>, Output = Polynomial1<T>>
 {
     fn zero() -> Self {
-        Polynomial1::<T>::new(vec![])
+        Polynomial1::<T>::new(vec![T::zero()])
     }
 
     fn is_zero(&self) -> bool {
@@ -49,7 +54,7 @@ impl<LHS: Clone, RHS: Clone> Mul<Polynomial1<RHS>> for Polynomial1<LHS>
                 result[i + j] += l[i].clone() * r[j].clone();
             }
         }
-        Self::Output::new(result)
+        Self::Output::new_impl(result)
     }
 }
 
@@ -71,7 +76,7 @@ impl<LHS: Zero + Clone, RHS: Zero + Clone> Add<Polynomial1<RHS>> for Polynomial1
                 (false, false) => unreachable!(""),
             }
         }
-        Self::Output::new(result)
+        Self::Output::new_impl(result)
     }
 }
 
@@ -84,7 +89,7 @@ impl<T: Neg> Neg for Polynomial1<T>
         for i in self.coeffs {
             result.push(-i);
         }
-        Self::Output::new(result)
+        Self::Output::new_impl(result)
     }
 }
 
