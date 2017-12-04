@@ -1,3 +1,4 @@
+use std::fmt;
 use std::cmp;
 use num_traits::{Zero, One};
 use std::ops::{Add, AddAssign, Mul, Neg, Sub};
@@ -101,5 +102,43 @@ impl<LHS: Zero + Clone, RHS: Zero + Clone + Neg> Sub<Polynomial1<RHS>> for Polyn
     type Output = Polynomial1<<LHS as Add<<RHS as Neg>::Output>>::Output>;
     fn sub(self, rhs: Polynomial1<RHS>) -> Self::Output {
         self + (-rhs)
+    }
+}
+
+impl<T> fmt::Display for Polynomial1<T>
+    where T: Neg + Zero + One + fmt::Display + PartialOrd + Clone,
+          <T as Neg>::Output: fmt::Display
+{
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        let reversed = { let mut t = self.coeffs.clone(); t.reverse(); t };
+        let mut first = true;
+        let n = self.coeffs.len() - 1;
+        for (j, c) in reversed.into_iter().enumerate() {
+            let i = n - j;
+            if first {
+                first = false;
+                if c < T::zero() {
+                    write!(f, "-")?;
+                }
+            } else {
+                if c < T::zero() {
+                    write!(f, " - ")?;
+                } else {
+                    write!(f, " + ")?;
+                }
+            }
+            if c < T::zero() {
+                write!(f, "{}", -c)?;
+            } else if i != 0 && c == T::one() {
+            } else {
+                write!(f, "{}", c)?;
+            }
+            if i == 1 {
+                write!(f, "x")?;
+            } else if i >= 2 {
+                write!(f, "x^{}", i)?;
+            }
+        }
+        Ok(())
     }
 }
