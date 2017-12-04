@@ -12,6 +12,17 @@ mod tests_polynomial_1 {
     use fraction::Fraction;
 
     #[test]
+    fn correct() {
+        use num_traits::Zero;
+        let eq = Polynomial1::new(vec![0, 0]);
+        assert!(eq.is_zero());
+        let eq = Polynomial1::new(vec![0, 1]);
+        assert!(!eq.is_zero());
+        let eq = eq * Polynomial1::<i32>::new(vec![]);
+        assert!(eq.is_zero());
+    }
+
+    #[test]
     fn add() {
         let eq1 = Polynomial1::<i32>::new(vec![3, 1]); // 3x + 1
         let eq2 = Polynomial1::<i32>::new(vec![1, 2]); // x + 2

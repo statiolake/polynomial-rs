@@ -11,16 +11,30 @@ pub struct Polynomial1<T> {
 }
 
 impl<T: Zero> Polynomial1<T> {
+    fn correct(mut self) -> Self {
+        if self.coeffs.is_empty() {
+            self.coeffs.push(T::zero());
+        }
+        for i in 1..self.coeffs.len() {
+            let j = self.coeffs.len() - i - 1;
+            if self.coeffs[j].is_zero() {
+                self.coeffs.pop();
+            } else {
+                break;
+            }
+        }
+        self
+    }
+}
+
+impl<T: Zero> Polynomial1<T> {
     pub fn new(mut coeffs: Vec<T>) -> Self {
         coeffs.reverse();
-        if coeffs.is_empty() {
-            coeffs.push(T::zero());
-        }
         Polynomial1::<T>::new_impl(coeffs)
     }
 
     fn new_impl(raw_coeffs: Vec<T>) -> Self {
-        Self { coeffs: raw_coeffs }
+        Self { coeffs: raw_coeffs }.correct()
     }
 }
 
