@@ -1,7 +1,9 @@
 use std::fmt;
 use std::cmp;
 use num_traits::{Zero, One};
-use std::ops::{Add, AddAssign, Mul, Neg, Sub};
+use std::ops::{Add, Mul, Sub, Div};
+use std::ops::{AddAssign, Neg};
+use fraction::Fraction;
 
 #[derive(Eq,PartialEq,Clone,Debug)]
 pub struct Polynomial1<T> {
@@ -102,6 +104,13 @@ impl<LHS: Zero + Clone, RHS: Zero + Clone + Neg> Sub<Polynomial1<RHS>> for Polyn
     type Output = Polynomial1<<LHS as Add<<RHS as Neg>::Output>>::Output>;
     fn sub(self, rhs: Polynomial1<RHS>) -> Self::Output {
         self + (-rhs)
+    }
+}
+
+impl <LHS, RHS> Div<Polynomial1<RHS>> for Polynomial1<LHS> {
+    type Output = Fraction<Polynomial1<LHS>, Polynomial1<RHS>>;
+    fn div(self, rhs: Polynomial1<RHS>) -> Self::Output {
+        Fraction::new(self, rhs)
     }
 }
 
