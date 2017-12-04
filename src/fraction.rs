@@ -1,3 +1,4 @@
+use std::fmt;
 use std::ops::{Add, Mul, Sub, Div};
 use std::ops::{Neg};
 
@@ -61,5 +62,12 @@ impl<LHSN, LHSD, RHSN, RHSD> Div<Fraction<RHSN, RHSD>> for Fraction<LHSN, LHSD>
     fn div(self, rhs: Fraction<RHSN, RHSD>) -> Self::Output {
         let divider = Fraction::new(rhs.denom, rhs.num);
         self * divider
+    }
+}
+
+impl<N: fmt::Display, D: fmt::Display> fmt::Display for Fraction<N, D> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        write!(f, "({})/({})", self.num, self.denom)?;
+        Ok(())
     }
 }

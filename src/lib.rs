@@ -44,6 +44,7 @@ mod tests_fraction {
     fn add() {
         let eq1 = Fraction::new(Polynomial1::new(vec![3, 1]), Polynomial1::new(vec![1, 1])); // (3x+1)/(x+1)
         let eq2 = Fraction::new(Polynomial1::new(vec![1, 2]), Polynomial1::new(vec![4, 1])); // (x+2)/(4x+1)
+        println!("{} + {} = {}", eq1, eq2, eq1.clone() + eq2.clone());
         assert_eq!(eq1 + eq2, Fraction::new(Polynomial1::new(vec![13,10,3]), Polynomial1::new(vec![4,5,1])));
     }
 
