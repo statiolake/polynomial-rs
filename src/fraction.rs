@@ -91,7 +91,9 @@ impl<LHSN, LHSD, RHSN, RHSD> Div<Fraction<RHSN, RHSD>> for Fraction<LHSN, LHSD>
 }
 
 impl<N: fmt::Display + PartialEq + Zero, D: fmt::Display + PartialEq + One> fmt::Display for Fraction<N, D> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        use std::fmt::Write;
+        let mut f = String::new();
         if self.num == N::zero() {
             write!(f, "{}", self.num)?;
         } else if self.denom == D::one() {
@@ -99,6 +101,7 @@ impl<N: fmt::Display + PartialEq + Zero, D: fmt::Display + PartialEq + One> fmt:
         } else {
             write!(f, "({})/({})", self.num, self.denom)?;
         }
+        formatter.pad(&f);
         Ok(())
     }
 }
