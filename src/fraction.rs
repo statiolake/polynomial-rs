@@ -33,3 +33,13 @@ impl<N: Neg, D> Neg for Fraction<N, D> {
         Self::Output::new(-self.num, self.denom)
     }
 }
+
+impl<LHSN, LHSD, RHSN: Neg, RHSD> Sub<Fraction<RHSN, RHSD>> for Fraction<LHSN, LHSD>
+    where Fraction<RHSN, RHSD>: Neg,
+          Fraction<LHSN, LHSD>: Add<<Fraction<RHSN, RHSD> as Neg>::Output>
+{
+    type Output = <Fraction<LHSN, LHSD> as Add<<Fraction<RHSN, RHSD> as Neg>::Output>>::Output;
+    fn sub(self, rhs: Fraction<RHSN, RHSD>) -> Self::Output {
+        self + (-rhs)
+    }
+}

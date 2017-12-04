@@ -51,4 +51,11 @@ mod tests_fraction {
         let eq = Fraction::new(Polynomial1::new(vec![3, 1]), Polynomial1::new(vec![1, 1])); // (3x+1)/(x+1)
         assert_eq!(-eq, Fraction::new(Polynomial1::new(vec![-3, -1]), Polynomial1::new(vec![1, 1])));
     }
+
+    #[test]
+    fn sub() {
+        let eq1 = Fraction::new(Polynomial1::new(vec![3, 1]), Polynomial1::new(vec![1])); // (3x+1)/(1)
+        let eq2 = Fraction::new(Polynomial1::new(vec![1, 2]), Polynomial1::new(vec![1])); // (x+2)/(1)
+        assert_eq!(eq1 - eq2, Fraction::new(Polynomial1::new(vec![2, -1]), Polynomial1::new(vec![1])));
+    }
 }
