@@ -4,7 +4,7 @@ pub mod polynomial_1;
 pub mod fraction;
 
 #[cfg(test)]
-mod tests {
+mod tests_polynomial_1 {
     use polynomial_1::Polynomial1;
     #[test]
     fn add() {
@@ -31,5 +31,24 @@ mod tests {
     fn neg() {
         let eq = Polynomial1::<i32>::new(vec![2, 1]); // 2x + 1
         assert_eq!(-eq.clone(), Polynomial1::<i32>::new(vec![-2, -1])); // -2x - 1
+    }
+}
+
+#[cfg(test)]
+mod tests_fraction {
+    use polynomial_1::Polynomial1;
+    use fraction::Fraction;
+
+    #[test]
+    fn add() {
+        let eq1 = Fraction::new(Polynomial1::new(vec![3, 1]), Polynomial1::new(vec![1, 1])); // (3x+1)/(x+1)
+        let eq2 = Fraction::new(Polynomial1::new(vec![1, 2]), Polynomial1::new(vec![4, 1])); // (x+2)/(4x+1)
+        assert_eq!(eq1 + eq2, Fraction::new(Polynomial1::new(vec![13,10,3]), Polynomial1::new(vec![4,5,1])));
+    }
+
+    #[test]
+    fn neg() {
+        let eq = Fraction::new(Polynomial1::new(vec![3, 1]), Polynomial1::new(vec![1, 1])); // (3x+1)/(x+1)
+        assert_eq!(-eq, Fraction::new(Polynomial1::new(vec![-3, -1]), Polynomial1::new(vec![1, 1])));
     }
 }
