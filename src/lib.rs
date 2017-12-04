@@ -33,8 +33,8 @@ mod tests_polynomial_1 {
     #[test]
     fn sub() {
         let eq1 = Polynomial1::<i32>::new(vec![3, 1]); // 3x + 1
-        let eq2 = Polynomial1::<i32>::new(vec![1, 2]); // x + 2
-        assert_eq!(eq1.clone() - eq2.clone(), Polynomial1::<i32>::new(vec![2, -1])); // 2x - 1
+        let eq2 = Polynomial1::<i32>::new(vec![3, 1]); // 3x + 1
+        assert_eq!(eq1.clone() - eq2.clone(), Polynomial1::<i32>::new(vec![])); // 0
     }
 
     #[test]

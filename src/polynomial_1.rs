@@ -16,6 +16,7 @@ impl<T: Zero> Polynomial1<T> {
             self.coeffs.push(T::zero());
         }
         for i in 1..self.coeffs.len() {
+            println!("DEBUG: i is {} and len is {}", i, self.coeffs.len());
             let j = self.coeffs.len() - i - 1;
             if self.coeffs[j].is_zero() {
                 self.coeffs.pop();
