@@ -1,12 +1,30 @@
 use std::fmt;
 use std::ops::{Add, Mul, Sub, Div};
 use std::ops::{Neg};
-use num_traits::One;
+use num_traits::{Zero, One};
 
 #[derive(Eq,PartialEq,Clone,Debug)]
 pub struct Fraction<N, D> {
     num: N,
     denom: D
+}
+
+impl<N: Zero + PartialEq, D: One> Zero for Fraction<N, D>
+    where Fraction<N, D>: Add<Fraction<N, D>, Output=Fraction<N, D>>
+{
+    fn zero() -> Self {
+        Self { num: <N as Zero>::zero(), denom: <D as One>::one() }
+    }
+
+    fn is_zero(&self) -> bool {
+        self.num == <N as Zero>::zero()
+    }
+}
+
+impl<N: One, D: One> One for Fraction<N, D> {
+    fn one() -> Self {
+        Self { num: <N as One>::one(), denom: <D as One>::one() }
+    }
 }
 
 impl<N: One> From<N> for Fraction<N, N> {
